@@ -1,0 +1,1429 @@
+----------------------------------------------------
+----- INSERT instructor ----------------------------
+----------------------------------------------------
+db.instructor.insertMany([
+  {
+    _id: "I201",
+    "first_name": "Chutiporn",
+    "last_name": "Anutariya",
+    "email": "chuti@ait.ac.th",
+    "registration_date": new Date("2019-05-11"),
+    "specialized_in": ["Semantic Web", "Data Modelling", "Agile Development", "Project Management"],
+    "courses": []
+  },
+  {
+    _id: "I202",
+    "first_name": "Chantri",
+    "last_name": "Polprasert",
+    "email": "chantrip@ait.ac.th",
+    "registration_date": new Date("2019-01-01"),
+    "specialized_in": ["Cloud Infrastructure Management", "Cloud Analyst", "System Management", "Network Administration", "Server Management"], 
+    "courses": []
+  }
+])
+
+
+----------------------------------------------------
+----- INSERT student -------------------------------
+----------------------------------------------------
+db.student.insertMany([
+  {
+	_id:"S201",
+	"first_name":"Seokjin",
+	"last_name":"Kim",
+	"email":"jin@ait.ac.th",
+	"registration_date":{"$date":"2019-06-14T00:00:00.000Z"},
+	"location": "South Korea",
+	"interested_in":["Video Game Developer","Computer Programmer","Data Scientist"],
+	"courses":[]
+  },
+
+  {
+	_id:"S202",
+	"first_name":"Park",
+	"last_name":"Jimin",
+	"email":"jimin@ait.ac.th",
+	"registration_date":{"$date":"2019-12-04T00:00:00.000Z"},
+	"location": "South Korea",
+	"interested_in":["Network Administrator","Software Engineer"],
+	"courses":[]
+  },
+
+  {
+	_id:"S203",
+	"first_name":"Lalisa",
+	"last_name":"Monoban",
+	"email":"lisa@ait.ac.th",
+	"registration_date":{"$date":"2019-05-10T00:00:00.000Z"},
+	"location": "Thailand",
+	"interested_in":["Graphics Designer","Web Designer"],
+	"courses":[]
+  },
+
+  {
+	_id:"S204",
+	"first_name":"Siddharth",
+	"last_name":"Malhotra",
+	"email":"sid@ait.ac.th",
+	"registration_date":{"$date":"2019-06-17T00:00:00.000Z"},
+	"location": "India",
+	"interested_in":["Ethical Hacker","Cloud Analyst","Cloud Infrastructure Manager"],
+	"courses":[]
+  },
+
+  {
+	_id:"S205",
+	"first_name":"Pooja",
+	"last_name":"Singh",
+	"email":"pooja@ait.ac.th",
+	"registration_date":{"$date":"2019-05-17T00:00:00.000Z"},
+	"location": "India",
+	"interested_in":["Full Stack Web Developer","Wordpress Developer","PHP Web Developer","Content Writer"],
+	"courses":[]
+  }
+])
+
+----------------------------------------------------
+----- an instructor add a course -------------------
+----------------------------------------------------
+db.instructor.update(
+    { _id: "I201" },
+    { $push: { courses: { 
+      _id: "C201",
+	  "name": "Data Modelling and Management",
+      "description": "In this course we learn about various data models and how to implement them",
+	  "course_fee": 0,
+      "language": "english",
+      "release_date": new Date("2019-06-01"),
+      "update_date":  new Date("2020-08-15"),
+      "related_to": ["Data Modelling", "Database Administrator"],   
+      "enrolled": [],
+      "chapters": []
+      } } }
+)
+
+db.instructor.update(
+    { _id: "I201" },
+    { $push: { courses: { 
+      _id: "C202",
+      "name": "Information System Development and Management",
+      "description": "This course will make us familiar to project management and planning",
+      "course_fee": 1400,
+      "language": "thai",
+      "release_date": new Date("2019-06-20"),
+      "update_date": new Date("2020-08-15"),
+      "related_to": ["Project Management","Agile Development"],
+      "enrolled": [],
+      "chapters": []
+      } } }
+)
+
+db.instructor.update(
+    { _id: "I201" },
+    { $push: { courses: { 
+      _id: "C203",
+	  "name": "Semantic Web Technoogies",
+      "description": "In this course we learn about semantic web and ontologies",
+      "course_fee": 899,
+      "language": "english",
+      "release_date": new Date("2019-09-12"),
+      "update_date": new Date("2020-06-01"),
+      "related_to": ["Semantic Web", "Database Design", "Software Development"],
+      "enrolled": [],
+      "chapters": []
+      } } }
+)
+
+db.instructor.update(
+    { _id: "I202" },
+    { $push: { courses: { 
+      _id: "C251",
+      "name": "Amazon Web Services",
+      "description": "In this course we learn about various AWS Services and AWS Infrastructure",
+	  "course_fee": 1999,
+      "language": "english",
+      "release_date": new Date("2019-08-02"),
+      "update_date": new Date("2020-08-02"),
+      "related_to": ["Cloud Infrastructure Management", "Cloud Analysis", "Server Management", "System Management"],
+      "enrolled": [],
+      "chapters": []
+      } } }
+)
+
+db.instructor.update(
+    { _id: "I202" },
+    { $push: { courses: { 
+      _id: "C252",
+      "name": "Computer Networks",
+      "description": "Types of Networks. Network Architecture. Data Link Networks. The Internet. ATM networks. Network Security. Applications.",
+      "course_fee": 1499,
+      "language": "english",
+      "release_date": new Date("2019-01-22"),
+      "update_date": new Date("2020-01-06"),
+      "related_to": ["Network Administration","Shell Scripting", "System Management"],
+      "enrolled": [],
+      "chapters": []
+      } } }
+)
+
+--------------------------------------------------------------
+----- an instructor add chapters/materials to the course -----
+--------------------------------------------------------------
+db.instructor.update(
+   { _id: "I201", "courses._id": "C201" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH201",
+      "name": "Relational Model",
+      "section": 1,
+      "description": "In this we learn about SQL and relational modelling of data using ER diagram",
+      "materials": [{
+            "_id": "M201",
+            "name": "Relational Model",
+            "type": "pdf",
+            "link": "dmm/Relational_model.pdf",
+			"mandatory": false
+            }, {
+            "_id": "M202",
+            "name": "Practice SQL",
+            "type": "pdf",
+            "link": "dmm/SQL_practice.pdf",
+            "mandatory": true
+        }]
+    } } }
+)
+db.instructor.update(
+   { _id: "I201", "courses._id": "C201" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH202",
+      "name": "Key Value Model",
+      "section": 2,
+      "description": "In this we study a new model called key value model using Redis",
+      "materials": [{
+            "_id": "M203",
+            "name": "Key Value Model",
+            "type": "presentation",
+            "link": "dmm/key_value_model.ppt",
+			"mandatory": false
+            }, {
+            "_id": "M204",
+            "name": "Practice Redis",
+            "type": "pdf",
+            "link": "dmm/redis_practice.pdf",
+            "mandatory": true
+        }],
+    } } }
+)
+db.instructor.update(
+   { _id: "I201", "courses._id": "C201" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH203",
+      "name": "Document Model",
+      "section": 3,
+      "description": "In this we learn about the document model using mongoDB",
+      "materials": [{
+            "_id": "M205",
+            "name": "Document Model",
+            "type": "pdf",
+            "link": "dmm/document_model.pdf",
+			"mandatory": false
+            }, {
+			"_id": "M206",
+			"name": "Practice mongoDB",
+            "type": "pdf",
+            "link": "dmm/mongo_practice.pdf",
+            "mandatory": true
+        }],
+    } } }
+)
+db.instructor.update(
+   { _id: "I201", "courses._id": "C201" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH204",
+      "name": "Columnar Model",
+      "section": 4,
+      "description": "In this model we learn about apache cassandra and the columnar family model",
+      "materials": [{
+            "_id": "M207",
+            "name": "Columnar Model",
+            "type": "ppt",
+            "link": "dmm/columnar_model.ppt",
+			"mandatory": false
+        }],
+    } } }
+)
+db.instructor.update(
+   { _id: "I201", "courses._id": "C201" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH205",
+      "name": "Graph Model",
+      "section": 5,
+      "description": "In this we will learn about Neo4j and graph model",
+      "materials": [
+        {
+          _id: "M208",
+          "name": "Graph Model",
+          "type": "pdf",
+          "link": "dmm/graph_model.pdf",
+		  "mandatory": false
+        },{
+		  _id: "M209",
+          "name": "Practice Neo4j",
+          "type": "pdf",
+          "link": "dmm/practice_neo4j.pdf",
+		  "mandatory": true
+		}
+      ],
+    } } }
+)
+db.instructor.update(
+   { _id: "I201", "courses._id": "C202" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH206",
+      "name": "Agile Development",
+      "section": 1,
+      "description": "In this we will learn about various agile techniques",
+	  "materials": [{
+            "_id": "M210",
+            "name": "Agile Development",
+            "type": "pdf",
+            "link": "isdm/agile.pdf",
+			"mandatory": false
+            }, {
+            "_id": "M211",
+            "name": "Agile_Interview",
+            "type": "doc",
+            "link": "isdm/agile_interview.doc",
+			"mandatory": true
+        }],
+    } } }
+)
+db.instructor.update(
+   { _id: "I201", "courses._id": "C202" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH207",
+      "name": "Project Management",
+      "section": 2,
+      "description": "We learn about network diagrams and cost benefit analysis",
+      "materials": [{
+            "_id": "M212",
+            "name": "Project Management tools",
+            "type": "ppt",
+            "link": "isdm/pmtools.ppt",
+			"mandatory": true
+            }, {
+            "_id": "M213",
+            "name": "Cost Benefit Analysis",
+            "type": "spreadsheet",
+			"link": "isdm/cost_benefit.xls",
+			"mandatory": true
+        }],
+    } } }
+)
+db.instructor.update(
+   { _id: "I201", "courses._id": "C203" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH208",
+      "name": "RDF",
+      "section": 1,
+      "description": "We learn about resource descriptive framework and rdf schema",
+      "materials": [{
+            "_id": "M214",
+            "name": "RDF Schema",
+            "type": "pdf",
+            "link": "swt/rdf.pdf",
+			"mandatory": false
+            }, {
+            "_id": "M215",
+            "name": "RDF Graph",
+            "type": "ppt",
+            "link": "swt/rdf_graph.ppt",
+			"mandatory": false
+        }],
+    } } }
+)
+db.instructor.update(
+   { _id: "I201", "courses._id": "C203" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH209",
+      "name": "Ontology Design",
+      "section": 2,
+      "description": "In this we learn about ontology design using classe, properties and instances",
+      "materials": [{
+            "_id": "M216",
+            "name": "Ontology Design",
+            "type": "pdf",
+            "link": "swt/ontology.pdf",
+			"mandatory": true
+        }],
+    } } }
+)
+
+db.instructor.update(
+   { _id: "I201", "courses._id": "C203" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH210",
+      "name": "SPARQL",
+      "section": 2,
+      "description": "In this we learn about semantic web query language",
+      "materials": [{
+            "_id": "M217",
+            "name": "SPARQL",
+            "type": "ppt",
+            "link": "swt/sparql.ppt",
+			"mandatory": true
+            }, {
+            "_id": "M218",
+            "name": "Stardog",
+            "type": "video",
+            "link": "swt/startdog.mkv",
+			"mandatory": false
+        }],
+    } } }
+)
+
+
+db.instructor.update(
+   { _id: "I202", "courses._id": "C251" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH251",
+      "name": "Cloud Concepts",
+      "section": 1,
+      "description": "In this we learn about the globally distributed AWS Infrastructure and Pricing models",
+      "materials": [{
+            "_id": "M251",
+            "name": "Cloud Concepts",
+            "type": "pdf",
+            "link": "cc/cloud_concepts.pdf",
+			"mandatory": false
+            }, {
+            "_id": "M252",
+            "name": "AWS Infrastructure lab",
+            "type": "doc",
+            "link": "cc/aws_infrastructure_lab.doc",
+            "mandatory": true
+        }],
+    } } }
+)
+db.instructor.update(
+   { _id: "I202", "courses._id": "C251" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH252",
+      "name": "AWS Services",
+      "section": 2,
+      "description": "In this we study about AWS Services such as EC2, EBS, S3, VPC etc.",
+      "materials": [{
+			"_id": "M253",
+			"name": "AWS Services",
+			"type": "presentation",
+			"link": "cc/aws_services.ppt",
+			"mandatory": false
+            }, {
+            "_id": "M254",
+            "name": "EC2 Lab",
+            "type": "doc",
+            "link": "cc/ec2.doc",
+			"mandatory": true
+        }],
+    } } }
+)
+
+db.instructor.update(
+   { _id: "I202", "courses._id": "C251" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH253",
+      "name": "AWS Cloud Security",
+      "section": 3,
+      "description": "In this we study about the Cloud Security using IAM and NACL",
+	  "materials": [{
+	  "_id": "M255",
+	  "name": "AWS Cloud Security",
+	  "type": "pdf",
+	  "link": "cc/aws_cloud_security.pdf",
+	  "mandatory": false
+            }, {
+			"_id": "M256",
+			"name": "IAM Lab",
+            "type": "doc",
+            "link": "cc/iam_lab.doc",
+			"mandatory": true
+        }],
+    } } }
+)
+
+db.instructor.update(
+   { _id: "I202", "courses._id": "C251" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH254",
+      "name": "Cloud Architechting",
+      "section": 4,
+      "description": "In this we learn about the Cloud Architecture availability and security along with load balancing and monitoring",
+	  "materials": [{
+			"_id": "M257",
+            "name": "Cloud Architechting",
+            "type": "pdf",
+            "link": "cc/cloud_architechting.pdf",
+			"mandatory": false
+            }, {
+			"_id": "M258",
+			"name": "LBS Lab",
+            "type": "doc",
+            "link": "cc/lbs_lab.doc",
+			"mandatory": true
+        }],
+    } } }
+)
+
+db.instructor.update(
+   { _id: "I202", "courses._id": "C251" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH255",
+	  "name": "Cloud Billing and Support Services",
+      "section": 5,
+      "description": "In this we learn about the support services and billing in cloud",
+	  "materials": [{
+			"_id": "M259",
+            "name": "Cloud Billing and Support Services",
+            "type": "pdf",
+            "link": "cc/billing.pdf",
+			"mandatory": false
+            }, {
+			"_id": "M260",
+            "name": "Research Review",
+            "type": "doc",
+            "link": "cc/research_review.doc"
+        }],
+    } } }
+)
+
+db.instructor.update(
+   { _id: "I202", "courses._id": "C252" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH256",
+      "name": "Types of Networks",
+      "section": 1,
+      "description": "Network types - wide area networks, local area networks, home networks; circuit switching, packet switching; datagram, virtual circuits",
+	  "materials": [{
+			"_id": "M261",
+            "name": "Network Types",
+            "type": "pdf",
+            "link": "cn/network_types.pdf",
+			"mandatory": false
+            }, {
+            "_id": "M262",
+            "name": "Network Types Quiz",
+            "type": "doc",
+            "link": "cn/nt_quiz.doc",
+			"mandatory": true
+        }],
+    } } }
+)
+
+db.instructor.update(
+   { _id: "I202", "courses._id": "C252" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH257",
+      "name": "Network Architecture",
+      "section": 2,
+      "description": "In this we learn about Network Architecture such as OSI and the protocols",
+	  "materials": [{
+            "_id": "M263",
+            "name": "Network Architecture",
+            "type": "pdf",
+			"link": "cn/nw_architecture.pdf",
+			"mandatory": false
+            }, {
+            "_id": "M264",
+            "name": "Network Architecture Quiz",
+            "type": "doc",
+            "link": "cn/na_quiz.doc",
+			"mandatory": true
+        }],
+    } } }
+)
+
+db.instructor.update(
+   { _id: "I202", "courses._id": "C252" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH258",
+      "name": "Data Link Networks",
+      "section": 3,
+      "description": "In this we learn about error detection, collision avoidance and detection; reliable transmission",
+	  "materials": [{
+            "_id": "M265",
+            "name": "Data Link Networks",
+            "type": "pdf",
+			"link": "cn/datalink_networks.pdf",
+			"mandatory": false
+            }, {
+            "_id": "M266",
+            "name": "Data Link Networks Quiz",
+            "type": "doc",
+            "link": "cn/dln_quiz.doc",
+			"mandatory": true
+        }],
+    } } }
+)
+
+db.instructor.update(
+   { _id: "I202", "courses._id": "C252" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH259",
+      "name": "The Internet",
+      "section": 4,
+      "description": "In this we learn about the Internet (TCP/IP, routing and addressing, application protocols)",
+	  "materials": [{
+			"_id": "M267",
+            "name": "The Internet",
+            "type": "pdf",
+            "link": "cn/internet.pdf",
+			"mandatory": false
+            }, {
+            "_id": "M268",
+            "name": "Internet Quiz",
+            "type": "doc",
+            "link": "cn/internet_quiz.doc",
+			"mandatory": true
+        }],
+    } } }
+)
+
+db.instructor.update(
+   { _id: "I202", "courses._id": "C252" },
+   { $push: { "courses.$.chapters": {
+      _id: "CH260",
+      "name": "Network Security and Applications",
+      "section": 5,
+      "description": "In this we learn about network security and quality of Service with applications",
+      "materials": [{
+            "_id": "M269",
+            "name": "Network Security",
+            "type": "pdf",
+            "link": "cn/network_security.pdf",
+			"mandatory": false
+            }, {
+            "_id": "M270",
+            "name": "Network Security Quiz",
+            "type": "doc",
+            "link": "cn/security_quiz.doc",
+			"mandatory": true
+            }, {
+			"_id": "M271",
+            "name": "Network Applications",
+            "type": "pdf",
+            "link": "cn/network_applications.pdf",
+			"mandatory": false
+			},{
+			"_id": "M272",
+            "name": "Network Applications Quiz",
+            "type": "doc",
+            "link": "cn/applications_quiz.doc",
+			"mandatory": true
+        }],
+    } } }
+)
+
+--------------------------------------------------------------
+----- enrolled a course -- this process needs 2 commands -----
+--------------------------------------------------------------
+db.student.update(
+   { _id: "S201" },
+   { $push: { courses: { _id: "C201", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S201" },
+   { $push: { courses: { _id: "C251", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S201" },
+   { $push: { courses: { _id: "C151", "status": "in-progress" } } }
+)
+---
+db.student.update(
+   { _id: "S202" },
+   { $push: { courses: { _id: "C202", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S202" },
+   { $push: { courses: { _id: "C252", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S202" },
+   { $push: { courses: { _id: "C101", "status": "in-progress" } } }
+)
+---
+db.student.update(
+   { _id: "S203" },
+   { $push: { courses: { _id: "C203", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S203" },
+   { $push: { courses: { _id: "C251", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S203" },
+   { $push: { courses: { _id: "C312", "status": "in-progress" } } }
+)
+---
+db.student.update(
+   { _id: "S204" },
+   { $push: { courses: { _id: "C201", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S204" },
+   { $push: { courses: { _id: "C202", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S204" },
+   { $push: { courses: { _id: "C152", "status": "in-progress" } } }
+)
+---
+db.student.update(
+   { _id: "S205" },
+   { $push: { courses: { _id: "C101", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S205" },
+   { $push: { courses: { _id: "C103", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S205" },
+   { $push: { courses: { _id: "C152", "status": "in-progress" } } }
+)
+---
+---
+
+db.instructor.update(
+  { _id: "I101", "courses._id": "C101" },
+  { $push: { "courses.$.enrolled": "S202" }}
+)
+db.instructor.update(
+  { _id: "I101", "courses._id": "C101" },
+  { $push: { "courses.$.enrolled": "S204" }}
+)
+db.instructor.update(
+  { _id: "I101", "courses._id": "C103" },
+  { $push: { "courses.$.enrolled": "S205" }}
+)
+---
+db.instructor.update(
+  { _id: "I102", "courses._id": "C151" },
+  { $push: { "courses.$.enrolled": "S201" }}
+)
+db.instructor.update(
+  { _id: "I102", "courses._id": "C152" },
+  { $push: { "courses.$.enrolled": "S204" }}
+)
+db.instructor.update(
+  { _id: "I102", "courses._id": "C152" },
+  { $push: { "courses.$.enrolled": "S205" }}
+)
+---
+db.instructor.update(
+  { _id: "I201", "courses._id": "C201" },
+  { $push: { "courses.$.enrolled": "S201" }}
+)
+db.instructor.update(
+  { _id: "I201", "courses._id": "C202" },
+  { $push: { "courses.$.enrolled": "S202" }}
+)
+db.instructor.update(
+  { _id: "I201", "courses._id": "C203" },
+  { $push: { "courses.$.enrolled": "S203" }}
+)
+db.instructor.update(
+  { _id: "I201", "courses._id": "C201" },
+  { $push: { "courses.$.enrolled": "S204" }}
+)
+db.instructor.update(
+  { _id: "I201", "courses._id": "C202" },
+  { $push: { "courses.$.enrolled": "S204" }}
+)
+---
+db.instructor.update(
+  { _id: "I202", "courses._id": "C251" },
+  { $push: { "courses.$.enrolled": "S201" }}
+)
+db.instructor.update(
+  { _id: "I202", "courses._id": "C252" },
+  { $push: { "courses.$.enrolled": "S202" }}
+)
+db.instructor.update(
+  { _id: "I202", "courses._id": "C251" },
+  { $push: { "courses.$.enrolled": "S203" }}
+)
+---
+db.instructor.update(
+  { _id: "I301", "courses._id": "C312" },
+  { $push: { "courses.$.enrolled": "S203" }}
+)
+
+
+--------------------------------------------------------------
+----- passed the course --------------------------------------
+--------------------------------------------------------------
+db.student.update(
+   { _id: "S201", "courses._id": "C201" },
+   { $set: { "courses.$.status": "passed" } }
+)
+
+
+--------------------------------------------------------------
+----- dropped the course -- this process needs 2 commands ----
+--------------------------------------------------------------
+db.student.update(
+   { _id: "S101", "courses._id": "C101" },
+   { $set: { "courses.$.status": "dropped" } }
+)
+db.instructor.update(
+  { _id: "I101", "courses._id": "C101" },
+  { $pull: { "courses.$.enrolled": "S101" }}
+)
+
+--------------------------------------------------------------------------------------------------------------
+----- instructor updates the course description and price of the course --------------------------------------
+--------------------------------------------------------------------------------------------------------------
+db.instructor.update(
+	{_id: "I201", "courses._id": "C203"},
+	{ $set: {"courses.$.name": "Semantic Web Technology","courses.$.course_fee": 1400}}
+)
+--------------------------------------------------------------
+----- Feedback -----------------------------------------------
+--------------------------------------------------------------
+db.student.update(
+   { _id: "S201", "courses._id": "C201" },
+   { $set: { "courses.$.feedback_rating": 4.5 } }
+)
+db.student.update(
+   { _id: "S201", "courses._id": "C201" },
+   { $set: { "courses.$.feedback_comment": "The course is well built with practical expirience" } }
+)
+---
+db.student.update(
+   { _id: "S201", "courses._id": "C251" },
+   { $set: { "courses.$.feedback_rating": 4.6 } }
+)
+db.student.update(
+   { _id: "S201", "courses._id": "C251" },
+   { $set: { "courses.$.feedback_comment": "The course explains really well the underlying concepts of the computer networks" } }
+)
+---
+db.student.update(
+   { _id: "S201", "courses._id": "C151" },
+   { $set: { "courses.$.feedback_rating": 4.8 } }
+)
+db.student.update(
+   { _id: "S201", "courses._id": "C151" },
+   { $set: { "courses.$.feedback_comment": "Really helpful iin getting expirience in deep learning" } }
+)
+---
+---
+db.student.update(
+   { _id: "S202", "courses._id": "C202" },
+   { $set: { "courses.$.feedback_rating": 4.7 } }
+)
+db.student.update(
+   { _id: "S202", "courses._id": "C202" },
+   { $set: { "courses.$.feedback_comment": "Excellent course to learn about agile development" } }
+)
+---
+db.student.update(
+   { _id: "S202", "courses._id": "C252" },
+   { $set: { "courses.$.feedback_rating": 4.6 } }
+)
+db.student.update(
+   { _id: "S202", "courses._id": "C252" },
+   { $set: { "courses.$.feedback_comment": "Excellent course for networking freaks" } }
+)
+---
+db.student.update(
+   { _id: "S202", "courses._id": "C101" },
+   { $set: { "courses.$.feedback_rating": 4.4 } }
+)
+db.student.update(
+   { _id: "S202", "courses._id": "C101" },
+   { $set: { "courses.$.feedback_comment": "Good for learning basic concepts of ML" } }
+)
+---
+---
+db.student.update(
+   { _id: "S203", "courses._id": "C203" },
+   { $set: { "courses.$.feedback_rating": 4.5 } }
+)
+db.student.update(
+   { _id: "S203", "courses._id": "C203" },
+   { $set: { "courses.$.feedback_comment": "A rare course fro ontology design" } }
+)
+---
+db.student.update(
+   { _id: "S203", "courses._id": "C251" },
+   { $set: { "courses.$.feedback_rating": 4.9 } }
+)
+db.student.update(
+   { _id: "S203", "courses._id": "C251" },
+   { $set: { "courses.$.feedback_comment": "You get an AWS certification on compleltion which is handy" } }
+)
+---
+db.student.update(
+   { _id: "S203", "courses._id": "C312" },
+   { $set: { "courses.$.feedback_rating": 4.2 } }
+)
+db.student.update(
+   { _id: "S203", "courses._id": "C312" },
+   { $set: { "courses.$.feedback_comment": "Nice course" } }
+)
+---
+---
+db.student.update(
+   { _id: "S204", "courses._id": "C201" },
+   { $set: { "courses.$.feedback_rating": 4.4 } }
+)
+db.student.update(
+   { _id: "S204", "courses._id": "C201" },
+   { $set: { "courses.$.feedback_comment": "Very good course to learn about databases" } }
+)
+---
+db.student.update(
+   { _id: "S204", "courses._id": "C202" },
+   { $set: { "courses.$.feedback_rating": 4.5 } }
+)
+db.student.update(
+   { _id: "S204", "courses._id": "C202" },
+   { $set: { "courses.$.feedback_comment": "Best course to learn project management" } }
+)
+---
+db.student.update(
+   { _id: "S204", "courses._id": "C152" },
+   { $set: { "courses.$.feedback_rating": 3.5 } }
+)
+db.student.update(
+   { _id: "S204", "courses._id": "C152" },
+   { $set: { "courses.$.feedback_comment": "Average course for networking" } }
+)
+---
+---
+db.student.update(
+   { _id: "S205", "courses._id": "C101" },
+   { $set: { "courses.$.feedback_rating": 4.1 } }
+)
+db.student.update(
+   { _id: "S205", "courses._id": "C101" },
+   { $set: { "courses.$.feedback_comment": "Good course for ML" } }
+)
+---
+db.student.update(
+   { _id: "S205", "courses._id": "C103" },
+   { $set: { "courses.$.feedback_rating": 4.4 } }
+)
+db.student.update(
+   { _id: "S205", "courses._id": "C103" },
+   { $set: { "courses.$.feedback_comment": "Nice course for web development using ruby" } }
+)
+---
+db.student.update(
+   { _id: "S205", "courses._id": "C152" },
+   { $set: { "courses.$.feedback_rating": 3.8 } }
+)
+db.student.update(
+   { _id: "S205", "courses._id": "C152" },
+   { $set: { "courses.$.feedback_comment": "Nice course but better courses are available" } }
+)
+
+
+--------------------------------------------------------------
+----- Assigment ----------------------------------------------
+--------------------------------------------------------------
+-- [1] -- An instructor create an assignmnet -----------------
+db.instructor.update(
+   { _id: "I201"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A201",
+      name: "SQL Project",
+      link: "dmm/sql_project.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-09-18"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C201"},
+	{"chapterid._id": "CH201"}]
+})
+---
+db.instructor.update(
+   { _id: "I201"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A203",
+      name: "MongoDB Project",
+      link: "dmm/mongodb_project.doc",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-10-14"),
+    } } 
+   },
+	{ arrayFilters: [
+	{"courseid._id": "C201"},
+	{"chapterid._id": "CH203"}]
+})
+
+---
+db.instructor.update(
+   { _id: "I201"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A205",
+      name: "Neo4j Project",
+      link: "dmm/graph_project.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-10-16"),
+    } } 
+   },
+	{ arrayFilters: [
+	{"courseid._id": "C201"},
+	{"chapterid._id": "CH205"}]
+})
+---
+---
+db.instructor.update(
+   { _id: "I201"}, 
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A207",
+      name: "Barcamp Project",
+      link: "isdm/barcamp_project.pdf",
+      mandatory: true,
+      max_point: 100,
+      assign_date: new Date("2020-02-23"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C202"},
+	{"chapterid._id": "CH207"}]
+})
+---
+---
+db.instructor.update(
+   { _id: "I201"}, 
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A209",
+      name: "Ontology Design",
+      link: "swt/ontology_design_project.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-06-29"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C203"},
+	{"chapterid._id": "CH209"}]
+})
+---
+db.instructor.update(
+   { _id: "I201"}, 
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A210",
+      name: "SPARQL for Ontology",
+      link: "swt/sparql_for_ontology_project.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-07-11"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C203"},
+	{"chapterid._id": "CH210"}]
+})
+---
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A252",
+      name: "Home work on EC2",
+      link: "cc/ec2_hw.doc",
+      mandatory: true,
+      max_point: 30,
+      assign_date: new Date("2020-08-15"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C251"},
+	{"chapterid._id": "CH252"}]
+})
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A253",
+      name: "Homw work on Cloud Security",
+      link: "cc/cloud_security_hw.pdf",
+      mandatory: true,
+      max_point: 30,
+      assign_date: new Date("2020-09-01"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C251"},
+	{"chapterid._id": "CH253"}]
+})
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A255",
+      name: "Cloud Project",
+      link: "cc/cloud_project.pdf",
+      mandatory: true,
+      max_point: 100,
+      assign_date: new Date("2020-09-25"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C251"},
+	{"chapterid._id": "CH255"}]
+})
+---
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A257",
+      name: "Network Architechture HW ",
+      link: "cn/net_arc_hw.doc",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-02-03"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C252"},
+	{"chapterid._id": "CH257"}]
+})
+---
+db.instructor.update(
+   { _id: "I202"}, 
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A258",
+      name: "Data Link HW",
+      link: "cn/dl_hw.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-02-27"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C252"},
+	{"chapterid._id": "CH258"}]
+})
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A260",
+      name: "Networking Project",
+      link: "cn/networks_project.pdf",
+      mandatory: true,
+      max_point: 100,
+      assign_date: new Date("2020-03-10"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C252"},
+	{"chapterid._id": "CH260"}]
+})
+
+-- [2] -- An instructor assign the assignment to all students in the course
+db.student.updateMany(
+  { "courses._id": "C201" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A201"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C201" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A203"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C201" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A205"
+  } } }
+)
+---
+---
+db.student.updateMany(
+  { "courses._id": "C202" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A207"
+  } } }
+)
+---
+---
+db.student.updateMany(
+  { "courses._id": "C203" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A209"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C203" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A210"
+  } } }
+)
+---
+---
+db.student.updateMany(
+  { "courses._id": "C251" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A252"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C251" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A253"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C251" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A255"
+  } } }
+)
+---
+---
+db.student.updateMany(
+  { "courses._id": "C252" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A257"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C252" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A258"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C252" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A260"
+  } } }
+)
+
+
+-- [3] -- A student submitted the work
+-- let's assume student's score is already validated, it always <= max_point
+db.student.update(
+   { _id: "S201"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 45,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C201"},
+	{"assignid._id": "A201"}]
+})
+---
+db.student.update(
+   { _id: "S201"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 40,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C201"},
+	{"assignid._id": "A203"}]
+})
+---
+db.student.update(
+   { _id: "S204"}, 
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 42,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C204"},
+	{"assignid._id": "A201"}]
+})
+---
+db.student.update(
+   { _id: "S204"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 45,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C201"},
+	{"assignid._id": "A203"}]
+})
+
+
+---
+---
+db.student.update(
+   { _id: "S202"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 88,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C202"},
+	{"assignid._id": "A207"}]
+})
+---
+db.student.update(
+   { _id: "S202"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 93,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C202"},
+	{"assignid._id": "A207"}]
+})
+---
+---
+db.student.update(
+   { _id: "S203"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 42,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C203"},
+	{"assignid._id": "A209"}]
+})
+---
+db.student.update(
+   { _id: "S203"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 50,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C203"},
+	{"assignid._id": "A210"}]
+})
+
+---
+---
+db.student.update(
+   { _id: "S201"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 27,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C251"},
+	{"assignid._id": "A252"}]
+})
+---
+db.student.update(
+   { _id: "S201"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 24,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C251"},
+	{"assignid._id": "A253"}]
+})
+---
+---
+db.student.update(
+   { _id: "S203"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 25,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C251"},
+	{"assignid._id": "A252"}]
+})
+---
+db.student.update(
+   { _id: "S203"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 20,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C251"},
+	{"assignid._id": "A253"}]
+})
+---
+---
+db.student.update(
+   { _id: "S202"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 45,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C252"},
+	{"assignid._id": "A257"}]
+})
+---
+db.student.update(
+   { _id: "S202"}, 
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 49,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C252"},
+	{"assignid._id": "A258"}]
+})
+---
+db.student.update(
+   { _id: "S202"}, 
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 85,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C252"},
+	{"assignid._id": "A260"}]
+})
+
+
+-- To delete
+db.instructor.deleteOne( { _id: "I201" })
+db.instructor.deleteOne( { _id: "I202" })
+
+db.student.deleteOne( { _id: "S201" })
+db.student.deleteOne( { _id: "S202" })
+db.student.deleteOne( { _id: "S203" })
+db.student.deleteOne( { _id: "S204" })
+db.student.deleteOne( { _id: "S205" })
+
+

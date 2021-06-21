@@ -1,0 +1,802 @@
+--------------------------------------------------------------
+----- enrolled a course -- this process needs 2 commands -----
+--------------------------------------------------------------
+db.student.update(
+   { _id: "S201" },
+   { $push: { courses: { _id: "C201", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S201" },
+   { $push: { courses: { _id: "C251", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S201" },
+   { $push: { courses: { _id: "C151", "status": "in-progress" } } }
+)
+---
+db.student.update(
+   { _id: "S202" },
+   { $push: { courses: { _id: "C202", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S202" },
+   { $push: { courses: { _id: "C252", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S202" },
+   { $push: { courses: { _id: "C101", "status": "in-progress" } } }
+)
+---
+db.student.update(
+   { _id: "S203" },
+   { $push: { courses: { _id: "C203", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S203" },
+   { $push: { courses: { _id: "C251", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S203" },
+   { $push: { courses: { _id: "C312", "status": "in-progress" } } }
+)
+---
+db.student.update(
+   { _id: "S204" },
+   { $push: { courses: { _id: "C201", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S204" },
+   { $push: { courses: { _id: "C202", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S204" },
+   { $push: { courses: { _id: "C152", "status": "in-progress" } } }
+)
+---
+db.student.update(
+   { _id: "S205" },
+   { $push: { courses: { _id: "C101", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S205" },
+   { $push: { courses: { _id: "C103", "status": "in-progress" } } }
+)
+db.student.update(
+   { _id: "S205" },
+   { $push: { courses: { _id: "C152", "status": "in-progress" } } }
+)
+---
+---
+
+db.instructor.update(
+  { _id: "I101", "courses._id": "C101" },
+  { $push: { "courses.$.enrolled": "S202" }}
+)
+db.instructor.update(
+  { _id: "I101", "courses._id": "C101" },
+  { $push: { "courses.$.enrolled": "S204" }}
+)
+db.instructor.update(
+  { _id: "I101", "courses._id": "C103" },
+  { $push: { "courses.$.enrolled": "S205" }}
+)
+---
+db.instructor.update(
+  { _id: "I102", "courses._id": "C151" },
+  { $push: { "courses.$.enrolled": "S201" }}
+)
+db.instructor.update(
+  { _id: "I102", "courses._id": "C152" },
+  { $push: { "courses.$.enrolled": "S204" }}
+)
+db.instructor.update(
+  { _id: "I102", "courses._id": "C152" },
+  { $push: { "courses.$.enrolled": "S205" }}
+)
+---
+db.instructor.update(
+  { _id: "I201", "courses._id": "C201" },
+  { $push: { "courses.$.enrolled": "S201" }}
+)
+db.instructor.update(
+  { _id: "I201", "courses._id": "C202" },
+  { $push: { "courses.$.enrolled": "S202" }}
+)
+db.instructor.update(
+  { _id: "I201", "courses._id": "C203" },
+  { $push: { "courses.$.enrolled": "S203" }}
+)
+db.instructor.update(
+  { _id: "I201", "courses._id": "C201" },
+  { $push: { "courses.$.enrolled": "S204" }}
+)
+db.instructor.update(
+  { _id: "I201", "courses._id": "C202" },
+  { $push: { "courses.$.enrolled": "S204" }}
+)
+---
+db.instructor.update(
+  { _id: "I202", "courses._id": "C251" },
+  { $push: { "courses.$.enrolled": "S201" }}
+)
+db.instructor.update(
+  { _id: "I202", "courses._id": "C252" },
+  { $push: { "courses.$.enrolled": "S202" }}
+)
+db.instructor.update(
+  { _id: "I202", "courses._id": "C251" },
+  { $push: { "courses.$.enrolled": "S203" }}
+)
+---
+db.instructor.update(
+  { _id: "I301", "courses._id": "C312" },
+  { $push: { "courses.$.enrolled": "S203" }}
+)
+
+
+--------------------------------------------------------------
+----- passed the course --------------------------------------
+--------------------------------------------------------------
+db.student.update(
+   { _id: "S201", "courses._id": "C201" },
+   { $set: { "courses.$.status": "passed" } }
+)
+
+db.instructor.update(
+	{_id: "I201", "courses._id": "C203"},
+	{ $set: {"courses.$.name": "Semantic Web Technology","courses.$.course_fee": 1400}}
+)
+--------------------------------------------------------------
+----- dropped the course -- this process needs 2 commands ----
+--------------------------------------------------------------
+db.student.update(
+   { _id: "S101", "courses._id": "C101" },
+   { $set: { "courses.$.status": "dropped" } }
+)
+db.instructor.update(
+  { _id: "I101", "courses._id": "C101" },
+  { $pull: { "courses.$.enrolled": "S101" }}
+)
+
+
+--------------------------------------------------------------
+----- Feedback -----------------------------------------------
+--------------------------------------------------------------
+db.student.update(
+   { _id: "S201", "courses._id": "C201" },
+   { $set: { "courses.$.feedback_rating": 4.5 } }
+)
+db.student.update(
+   { _id: "S201", "courses._id": "C201" },
+   { $set: { "courses.$.feedback_comment": "The course is well built with practical expirience" } }
+)
+---
+db.student.update(
+   { _id: "S201", "courses._id": "C251" },
+   { $set: { "courses.$.feedback_rating": 4.6 } }
+)
+db.student.update(
+   { _id: "S201", "courses._id": "C251" },
+   { $set: { "courses.$.feedback_comment": "The course explains really well the underlying concepts of the computer networks" } }
+)
+---
+db.student.update(
+   { _id: "S201", "courses._id": "C151" },
+   { $set: { "courses.$.feedback_rating": 4.8 } }
+)
+db.student.update(
+   { _id: "S201", "courses._id": "C151" },
+   { $set: { "courses.$.feedback_comment": "Really helpful iin getting expirience in deep learning" } }
+)
+---
+---
+db.student.update(
+   { _id: "S202", "courses._id": "C202" },
+   { $set: { "courses.$.feedback_rating": 4.7 } }
+)
+db.student.update(
+   { _id: "S202", "courses._id": "C202" },
+   { $set: { "courses.$.feedback_comment": "Excellent course to learn about agile development" } }
+)
+---
+db.student.update(
+   { _id: "S202", "courses._id": "C252" },
+   { $set: { "courses.$.feedback_rating": 4.6 } }
+)
+db.student.update(
+   { _id: "S202", "courses._id": "C252" },
+   { $set: { "courses.$.feedback_comment": "Excellent course for networking freaks" } }
+)
+---
+db.student.update(
+   { _id: "S202", "courses._id": "C101" },
+   { $set: { "courses.$.feedback_rating": 4.4 } }
+)
+db.student.update(
+   { _id: "S202", "courses._id": "C101" },
+   { $set: { "courses.$.feedback_comment": "Good for learning basic concepts of ML" } }
+)
+---
+---
+db.student.update(
+   { _id: "S203", "courses._id": "C203" },
+   { $set: { "courses.$.feedback_rating": 4.5 } }
+)
+db.student.update(
+   { _id: "S203", "courses._id": "C203" },
+   { $set: { "courses.$.feedback_comment": "A rare course fro ontology design" } }
+)
+---
+db.student.update(
+   { _id: "S203", "courses._id": "C251" },
+   { $set: { "courses.$.feedback_rating": 4.9 } }
+)
+db.student.update(
+   { _id: "S203", "courses._id": "C251" },
+   { $set: { "courses.$.feedback_comment": "You get an AWS certification on compleltion which is handy" } }
+)
+---
+db.student.update(
+   { _id: "S203", "courses._id": "C312" },
+   { $set: { "courses.$.feedback_rating": 4.2 } }
+)
+db.student.update(
+   { _id: "S203", "courses._id": "C312" },
+   { $set: { "courses.$.feedback_comment": "Nice course" } }
+)
+---
+---
+db.student.update(
+   { _id: "S204", "courses._id": "C201" },
+   { $set: { "courses.$.feedback_rating": 4.4 } }
+)
+db.student.update(
+   { _id: "S204", "courses._id": "C201" },
+   { $set: { "courses.$.feedback_comment": "Very good course to learn about databases" } }
+)
+---
+db.student.update(
+   { _id: "S204", "courses._id": "C202" },
+   { $set: { "courses.$.feedback_rating": 4.5 } }
+)
+db.student.update(
+   { _id: "S204", "courses._id": "C202" },
+   { $set: { "courses.$.feedback_comment": "Best course to learn project management" } }
+)
+---
+db.student.update(
+   { _id: "S204", "courses._id": "C152" },
+   { $set: { "courses.$.feedback_rating": 3.5 } }
+)
+db.student.update(
+   { _id: "S204", "courses._id": "C152" },
+   { $set: { "courses.$.feedback_comment": "Average course for networking" } }
+)
+---
+---
+db.student.update(
+   { _id: "S205", "courses._id": "C101" },
+   { $set: { "courses.$.feedback_rating": 4.1 } }
+)
+db.student.update(
+   { _id: "S205", "courses._id": "C101" },
+   { $set: { "courses.$.feedback_comment": "Good course for ML" } }
+)
+---
+db.student.update(
+   { _id: "S205", "courses._id": "C103" },
+   { $set: { "courses.$.feedback_rating": 4.4 } }
+)
+db.student.update(
+   { _id: "S205", "courses._id": "C103" },
+   { $set: { "courses.$.feedback_comment": "Nice course for web development using ruby" } }
+)
+---
+db.student.update(
+   { _id: "S205", "courses._id": "C152" },
+   { $set: { "courses.$.feedback_rating": 3.8 } }
+)
+db.student.update(
+   { _id: "S205", "courses._id": "C152" },
+   { $set: { "courses.$.feedback_comment": "Nice course but better courses are available" } }
+)
+
+
+--------------------------------------------------------------
+----- Assigment ----------------------------------------------
+--------------------------------------------------------------
+-- [1] -- An instructor create an assignmnet -----------------
+db.instructor.update(
+   { _id: "I201"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A201",
+      name: "SQL Project",
+      link: "dmm/sql_project.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-09-18"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C201"},
+	{"chapterid._id": "CH201"}]
+})
+---
+db.instructor.update(
+   { _id: "I201"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A203",
+      name: "MongoDB Project",
+      link: "dmm/mongodb_project.doc",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-10-14"),
+    } } 
+   },
+	{ arrayFilters: [
+	{"courseid._id": "C201"},
+	{"chapterid._id": "CH203"}]
+})
+
+---
+db.instructor.update(
+   { _id: "I201"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A205",
+      name: "Neo4j Project",
+      link: "dmm/graph_project.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-10-16"),
+    } } 
+   },
+	{ arrayFilters: [
+	{"courseid._id": "C201"},
+	{"chapterid._id": "CH205"}]
+})
+---
+---
+db.instructor.update(
+   { _id: "I201"}, 
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A207",
+      name: "Barcamp Project",
+      link: "isdm/barcamp_project.pdf",
+      mandatory: true,
+      max_point: 100,
+      assign_date: new Date("2020-02-23"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C202"},
+	{"chapterid._id": "CH207"}]
+})
+---
+---
+db.instructor.update(
+   { _id: "I201"}, 
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A209",
+      name: "Ontology Design",
+      link: "swt/ontology_design_project.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-06-29"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C203"},
+	{"chapterid._id": "CH209"}]
+})
+---
+db.instructor.update(
+   { _id: "I201"}, 
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A210",
+      name: "SPARQL for Ontology",
+      link: "swt/sparql_for_ontology_project.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-07-11"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C203"},
+	{"chapterid._id": "CH210"}]
+})
+---
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A252",
+      name: "Home work on EC2",
+      link: "cc/ec2_hw.doc",
+      mandatory: true,
+      max_point: 30,
+      assign_date: new Date("2020-08-15"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C251"},
+	{"chapterid._id": "CH252"}]
+})
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A253",
+      name: "Homw work on Cloud Security",
+      link: "cc/cloud_security_hw.pdf",
+      mandatory: true,
+      max_point: 30,
+      assign_date: new Date("2020-09-01"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C251"},
+	{"chapterid._id": "CH253"}]
+})
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A255",
+      name: "Cloud Project",
+      link: "cc/cloud_project.pdf",
+      mandatory: true,
+      max_point: 100,
+      assign_date: new Date("2020-09-25"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C251"},
+	{"chapterid._id": "CH255"}]
+})
+---
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A257",
+      name: "Network Architechture HW ",
+      link: "cn/net_arc_hw.doc",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-02-03"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C252"},
+	{"chapterid._id": "CH257"}]
+})
+---
+db.instructor.update(
+   { _id: "I202"}, 
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A258",
+      name: "Data Link HW",
+      link: "cn/dl_hw.pdf",
+      mandatory: true,
+      max_point: 50,
+      assign_date: new Date("2020-02-27"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C252"},
+	{"chapterid._id": "CH258"}]
+})
+---
+db.instructor.update(
+   { _id: "I202"},
+   { $set: { "courses.$[courseid].chapters.$[chapterid].assignment": {
+      _id: "A260",
+      name: "Networking Project",
+      link: "cn/networks_project.pdf",
+      mandatory: true,
+      max_point: 100,
+      assign_date: new Date("2020-03-10"),
+    } } },
+	{ arrayFilters: [
+	{"courseid._id": "C252"},
+	{"chapterid._id": "CH260"}]
+})
+
+-- [2] -- An instructor assign the assignment to all students in the course
+db.student.updateMany(
+  { "courses._id": "C201" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A201"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C201" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A203"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C201" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A205"
+  } } }
+)
+---
+---
+db.student.updateMany(
+  { "courses._id": "C202" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A207"
+  } } }
+)
+---
+---
+db.student.updateMany(
+  { "courses._id": "C203" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A209"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C203" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A210"
+  } } }
+)
+---
+---
+db.student.updateMany(
+  { "courses._id": "C251" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A252"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C251" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A253"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C251" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A255"
+  } } }
+)
+---
+---
+db.student.updateMany(
+  { "courses._id": "C252" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A257"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C252" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A258"
+  } } }
+)
+---
+db.student.updateMany(
+  { "courses._id": "C252" },
+  { $push: { "courses.$.assignments" : {
+      _id: "A260"
+  } } }
+)
+
+
+-- [3] -- A student submitted the work
+-- let's assume student's score is already validated, it always <= max_point
+db.student.update(
+   { _id: "S201"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 45,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C201"},
+	{"assignid._id": "A201"}]
+})
+---
+db.student.update(
+   { _id: "S201"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 40,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C201"},
+	{"assignid._id": "A203"}]
+})
+---
+db.student.update(
+   { _id: "S204"}, 
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 42,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C204"},
+	{"assignid._id": "A201"}]
+})
+---
+db.student.update(
+   { _id: "S204"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 45,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C201"},
+	{"assignid._id": "A203"}]
+})
+
+
+---
+---
+db.student.update(
+   { _id: "S202"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 88,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C202"},
+	{"assignid._id": "A207"}]
+})
+---
+db.student.update(
+   { _id: "S202"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 93,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C202"},
+	{"assignid._id": "A207"}]
+})
+---
+---
+db.student.update(
+   { _id: "S203"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 42,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C203"},
+	{"assignid._id": "A209"}]
+})
+---
+db.student.update(
+   { _id: "S203"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 50,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C203"},
+	{"assignid._id": "A210"}]
+})
+
+---
+---
+db.student.update(
+   { _id: "S201"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 27,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C251"},
+	{"assignid._id": "A252"}]
+})
+---
+db.student.update(
+   { _id: "S201"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 24,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C251"},
+	{"assignid._id": "A253"}]
+})
+---
+---
+db.student.update(
+   { _id: "S203"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 25,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C251"},
+	{"assignid._id": "A252"}]
+})
+---
+db.student.update(
+   { _id: "S203"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 20,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C251"},
+	{"assignid._id": "A253"}]
+})
+---
+---
+db.student.update(
+   { _id: "S202"},
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 45,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C252"},
+	{"assignid._id": "A257"}]
+})
+---
+db.student.update(
+   { _id: "S202"}, 
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 49,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C252"},
+	{"assignid._id": "A258"}]
+})
+---
+db.student.update(
+   { _id: "S202"}, 
+   { $set:
+      {
+        "courses.$[courseid].assignments.$[assignid].score": 85,
+        "courses.$[courseid].assignments.$[assignid].submitted_date": new Date()
+      }
+   },
+   { arrayFilters: [
+	{"courseid._id": "C252"},
+	{"assignid._id": "A260"}]
+})
+
+
+-- To delete
+db.instructor.deleteOne( { _id: "I201" })
+db.instructor.deleteOne( { _id: "I202" })
+
+db.student.deleteOne( { _id: "S201" })
+db.student.deleteOne( { _id: "S202" })
+db.student.deleteOne( { _id: "S203" })
+db.student.deleteOne( { _id: "S204" })
+db.student.deleteOne( { _id: "S205" })
+
+

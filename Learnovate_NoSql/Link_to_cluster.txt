@@ -1,0 +1,5 @@
+
+-- Link to the atlas mongodb cluster --
+
+mongo "mongodb+srv://group8.dxgyh.gcp.mongodb.net/Learnovate" --username Group8
+Password: dmm2020

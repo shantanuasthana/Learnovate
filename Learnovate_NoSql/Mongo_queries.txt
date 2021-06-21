@@ -1,0 +1,95 @@
+-- Shantanu st121322 querries --
+-- 1. Chapters in Computer Networks -- 
+db.instructor.aggregate([
+  {$unwind: "$courses" },
+  {$match: {"courses.name":"Computer Networks"}},
+  {$project:{"courses.chapters.name":1}}
+]).pretty()
+
+
+-- 2. Courses fee less 1000 --
+
+db.instructor.aggregate([
+	{$unwind: "$courses"},
+	{$match: {"courses.course_fee":{$lt:1000}}},
+	{$project: {"courses.name":1, "courses.course_fee":1}}
+	
+]).pretty()
+
+
+-- 3. Courses having a particular field of study -- taken
+db.instructor.aggregate([
+	{$unwind: "$courses"},
+	{$unwind: "$courses.related_to"},
+	{$match:{"courses.related_to":"System Management"}}, 
+	{$project:{"courses.name":1, "courses.related_to":1}}
+]).pretty()
+
+
+-- 4. Which country students use the platform the most -- taken
+db.student.aggregate([
+  { $unwind: "$courses" },
+  { $group:
+	{
+  	_id: "$location",
+  	NumOfStudentEnrollments: { $sum: 1 }
+	}
+  },
+  {$sort:{NumOfStudentEnrollments:-1}},
+  {$limit:3}
+]).pretty()
+
+
+-- 5. Course with highest average rating -- 
+db.student.aggregate([ 
+  { $unwind: "$courses" },
+  
+  { $group:
+	{
+  	_id: "$courses._id",
+	AverageRating: { $avg: "$courses.feedback_rating" }
+	}
+  },
+  {$sort:{AverageRating:-1}},
+  {$limit: 5}
+]).pretty()
+
+-- 6. Get total scores of all the students in a particular course -- 
+db.student.aggregate([ { $unwind: "$courses" },
+  {$match: {"courses._id":"C251"}},
+  { $unwind: "$courses.assignments" },
+  { $group:
+	{
+  	_id: "$_id",
+	TotalScore: { $sum: "$courses.assignments.score" }
+	}
+  },
+  {$sort:{TotalScore:-1}}
+]).pretty()
+
+
+-- 7. Assignment Scores of a particular student course wise -- 
+db.student.aggregate([ {$match: {_id:"S201"}},
+  { $unwind: "$courses" },
+  { $unwind: "$courses.assignments" },
+  { $group:
+	{
+  	_id: "$courses._id",
+	TotalScore: { $sum: "$courses.assignments.score" }
+	}
+  },
+  {$sort:{TotalScore:-1}}
+]).pretty()
+
+-- 8. List out the recently updated courses to get the latest education --
+db.instructor.aggregate(
+    {$unwind:"$courses"},
+    {$match:{"courses.update_date": {
+        $gte: ISODate("2020-08-01T00:00:00.000Z"),
+        $lt: ISODate("2020-09-01T00:00:00.000Z")
+    }}},
+    {$project: {"courses._id":1,"courses.name":1, "courses.update_date":1}}
+).pretty()
+
+
+
